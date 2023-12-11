@@ -199,7 +199,7 @@ namespace retrievedata
 								string resultTagContent = ResultTag.GetAttribute("outerHTML");
 							using (var httpClient = new HttpClient())
 							{
-								var url = $"{apiUrl}?key={apiKey}&test&tracking={tracking}&resultTagContent={WebUtility.UrlEncode(resultTagContent)}";
+								var url = $"{apiUrl}?key={apiKey}&tracking={tracking}&resultTagContent={WebUtility.UrlEncode(resultTagContent)}";
 
 								using (var request = new HttpRequestMessage(HttpMethod.Get, url))
 								{
@@ -209,8 +209,7 @@ namespace retrievedata
 									if (response.IsSuccessStatusCode)
 									{
 										Console.WriteLine($"Tracking: {tracking} Gaigzavna ");
-										//Console.WriteLine($"Tracking: {tracking} HTTP Status Code: {(int)response.StatusCode} ({response.ReasonPhrase})");
-										//status Check Print
+										
 									}
 									else
 									{
