@@ -153,7 +153,7 @@ namespace retrievedata
 						}
 
 					}
-					//167075
+			
 					await Task.Delay(3000);
 					wait.Until(driver => ((IJavaScriptExecutor)driver).ExecuteScript("return document.readyState").Equals("complete"));
 
@@ -208,7 +208,9 @@ namespace retrievedata
 									await Task.Delay(1000);
 									if (response.IsSuccessStatusCode)
 									{
-										Console.WriteLine($"Tracking: {tracking} Gaigzavna");
+										Console.WriteLine($"Tracking: {tracking} Gaigzavna ");
+										//Console.WriteLine($"Tracking: {tracking} HTTP Status Code: {(int)response.StatusCode} ({response.ReasonPhrase})");
+										//status Check Print
 									}
 									else
 									{
