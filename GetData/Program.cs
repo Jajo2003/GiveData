@@ -199,7 +199,7 @@ namespace retrievedata
 								string resultTagContent = ResultTag.GetAttribute("outerHTML");
 							using (var httpClient = new HttpClient())
 							{
-								var url = $"{apiUrl}?key={apiKey}&tracking={tracking}&resultTagContent={WebUtility.UrlEncode(resultTagContent)}";
+								var url = $"{apiUrl}?key={apiKey}&tracking={tracking}&items={WebUtility.UrlEncode(resultTagContent)}";
 
 								using (var request = new HttpRequestMessage(HttpMethod.Get, url))
 								{
