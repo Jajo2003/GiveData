@@ -13,6 +13,7 @@ using OpenQA.Selenium.Internal;
 using System.Text.Json;
 using System.Reflection.Metadata;
 
+
 namespace retrievedata
 {
 	class dataClass
@@ -67,26 +68,7 @@ namespace retrievedata
 
 		}
 
-		private static string GetColor(string color)
-		{
-			if (color == "rgba(255, 0, 0, 1)")
-			{
-				color = "Witeli";
-				return color;
-			}
-			else if(color == "rgba(0, 0, 255, 1)")
-			{
-				color = "Lurji";
-				return color;
-			}
-			else
-			{
-				color = "daudgenelia";
-				return color;
-			}
-			
-
-		}
+		
 
 
 		public static async Task SendData(List<string> Trackings)
@@ -192,13 +174,11 @@ namespace retrievedata
 						await Task.Delay(3000);
 
 						GetFullscreen.Click();
-				
 
-						using (HttpClient client = new HttpClient())
-						{
-							client.DefaultRequestHeaders.Add("Api-Key", apiKey);
 
-							await Task.Delay(2000);
+
+						
+						await Task.Delay(2000);
 							foreach (var tracking in Trackings)
 							{
 								inputTag.Clear();
@@ -210,37 +190,42 @@ namespace retrievedata
 
 								inputTag.SendKeys(Keys.Enter);
 
-								Task.Delay(1000);
+								await Task.Delay(1000);
 
 								IWebElement ResultTag = driver.FindElement(By.Id("scan_result_parcel_status"));
 
-								Task.Delay(1000);
+								await Task.Delay(1000);
 
 								string resultTagContent = ResultTag.GetAttribute("outerHTML");
+							using (var httpClient = new HttpClient())
+							{
+								var url = $"{apiUrl}?key={apiKey}&test&tracking={tracking}&resultTagContent={WebUtility.UrlEncode(resultTagContent)}";
 
-								
-
-								HttpResponseMessage response = await client.PostAsync(apiUrl,new StringContent(resultTagContent));
-
-								Console.WriteLine(resultTagContent);
-
-								Task.Delay(1000);
-								if (response.IsSuccessStatusCode)
+								using (var request = new HttpRequestMessage(HttpMethod.Get, url))
 								{
-									Console.WriteLine($"Tracking: {tracking} Response: {await response.Content.ReadAsStringAsync()}");
-								}
-								else
-								{
-									Console.WriteLine("Ver Gaigzavna");
-								}
+									var response = await httpClient.SendAsync(request);
 
-								Task.Delay(1000);
+									await Task.Delay(1000);
+									if (response.IsSuccessStatusCode)
+									{
+										Console.WriteLine($"Tracking: {tracking} Gaigzavna");
+									}
+									else
+									{
+										Console.WriteLine("Ver Gaigzavna");
+									}
+								}
+							}
 
+
+
+
+							await Task.Delay(1000);
 
 								await Task.Delay(miliseconds);
 							}
 							await Task.Delay(5000);
-						}
+						
 					}
 				}
 			}
@@ -252,8 +237,7 @@ namespace retrievedata
 
 
 	}
-
-
+	
 
 
 
